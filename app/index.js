@@ -17,11 +17,11 @@ function appendToHTML(element) {
 	return new WritableStream({
 		write({ title, description, url_anime }) {
 			const card = `
-                <article>
+                <article class="card">
                     <div class="text">
-                        <h3>[${++counter}] ${title}</h3>
-                        <p>${description.slice(0, 100)}</p>
-                        <a href="${url_anime}" target="_blank">Link</a>
+                        <h3 class="card_title">[${++counter}] ${title}</h3>
+                        <p class="card_description">${description.slice(0, 100)}</p>
+                        <a class="anime_url" href="${url_anime}" target="_blank">Ver mais</a>
                     </div>
                 </article>
             `;

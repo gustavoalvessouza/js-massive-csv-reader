@@ -1,0 +1,77 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #F5F5F5;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-gap: 20px;
+    align-items: stretch;
+}
+
+.grid>article {
+    border: 1px solid #ccc;
+}
+
+.grid .text {
+    padding: 20px;
+}
+
+.container {
+    margin-top: 10px;
+}
+
+.card {
+    border-radius: 5px;
+    box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+.header_buttons {
+    width: 100%;
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.anime_url {
+    background-color: #035eae;
+    color: #fff;
+    padding: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.card_description {
+    color: #5f5f5f;
+}
+
+button {
+    border: unset;
+    cursor: pointer;
+    border-radius: 5px;
+    width: auto;
+    padding: 12px;
+    font-size: 13pt;
+}
+
+button#start {
+    background-color: #0a8114;
+    color: #fff;
+    margin-right: 10px;
+}
+
+button#stop {
+    background-color: #aa0707;
+    color: #fff;
+}
