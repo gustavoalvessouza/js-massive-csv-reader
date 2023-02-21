@@ -1,22 +1,14 @@
 const API_URL = "http://localhost:3000";
+let counter = 0;
 
 async function consumeAPI(signal) {
 	const response = await fetch(API_URL, {
 		signal,
 	});
 
-	let counter = 0;
-
 	const reader = response.body
 		.pipeThrough(new TextDecoderStream())
 		.pipeThrough(parseNDJSON());
-	// .pipeTo(
-	// 	new WritableStream({
-	// 		write(chunk) {
-	// 			console.log(++counter, "chunk", chunk);
-	// 		},
-	// 	})
-	// );
 
 	return reader;
 }
@@ -27,14 +19,17 @@ function appendToHTML(element) {
 			const card = `
                 <article>
                     <div class="text">
-                        <h3>${title}</h3>
-                        <p>${description}</p>
+                        <h3>[${++counter}] ${title}</h3>
+                        <p>${description.slice(0, 100)}</p>
                         <a href="${url_anime}" target="_blank">Link</a>
                     </div>
                 </article>
             `;
 
 			element.innerHTML += card;
+		},
+		abort(reason) {
+			console.log("aborted.", reason);
 		},
 	});
 }
@@ -66,6 +61,25 @@ const [start, stop, cards] = ["start", "stop", "cards"].map((item) =>
 	document.getElementById(item)
 );
 
-const abortController = new AbortController();
-const readable = await consumeAPI(abortController.signal);
-readable.pipeTo(appendToHTML(cards));
+/*
+	AbortController: Essa interface é usada para abortar requisições
+
+	Ex: Você está consumindo um video por streaming, e quando pausar
+		quer que o consumo seja "abortado" ou você está fazendo o download
+		de um arquivo e quer cancelar/abortar o mesmo.
+
+	Quando efetuamos uma requisição, passamos o signal do AbortController
+	para associar com o AbortController com a requisição e assim poder aborta-la.
+*/
+let abortController = new AbortController();
+
+start.addEventListener("click", async () => {
+	const readable = await consumeAPI(abortController.signal);
+	readable.pipeTo(appendToHTML(cards));
+});
+
+stop.addEventListener("click", () => {
+	abortController.abort();
+	console.log("aborting...");
+	abortController = new AbortController();
+});
